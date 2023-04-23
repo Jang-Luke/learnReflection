@@ -1,5 +1,6 @@
 package org.example;
 
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 public class App {
@@ -38,5 +39,22 @@ public class App {
         System.out.println("======================");
         Arrays.stream(MyBook.class.getInterfaces()).forEach(System.out::println);
         // 당연히 interface 들도 받아올 수 있음. interface 는 여러개 존재할 수 있으므로 Arrays 사용.
+        System.out.println("======================");
+        Arrays.stream(bookClass.getDeclaredFields()).forEach(f -> {
+            int modifiers = f.getModifiers();
+            System.out.println(f);
+            System.out.println("isPrivate? : " + Modifier.isPrivate(modifiers));
+            System.out.println("isStatic? : " + Modifier.isStatic(modifiers));
+        });
+        // Modifier 를 이용하면 각 요소들이 public, static, private 등등 접두사들이 무엇인지 검사할 수 있음.
+        // 각 Modifier 에 해당하는 int 값을 이용하여 구분함.
+        System.out.println("======================");
+        Arrays.stream(bookClass.getDeclaredMethods()).forEach(m -> {
+            int modifiers = m.getModifiers();
+            System.out.println(m);
+            System.out.println(m.getReturnType());
+            System.out.println(m.getParameterTypes());
+        });
+        // 메소드들의 리턴 타입이나, 파라미터 개수, 파라미터 타입 등 Reflection 을 이용하면 클래스 및 구성요소의 다양한 정보를 획득 및 사용할 수 있음.
     }
 }
